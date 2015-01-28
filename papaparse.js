@@ -697,6 +697,13 @@
 				_results.meta.delimiter = _config.delimiter;
 			}
 
+			if (!_config.hasOwnProperty('header'))
+			{
+				var headerGuess = guessHeader(input, _results.meta.delimiter);
+				_config.header = headerGuess;
+				_results.meta.header = _config.header;
+			}
+
 			var parserConfig = copy(_config);
 			if (_config.preview && _config.header)
 				parserConfig.preview++;	// to compensate for header row
@@ -820,6 +827,23 @@
 			return _results;
 		}
 
+		function guessHeader(input, delim)
+		{
+
+			var preview = new Parser({
+				preview: 1
+				, delimiter: delim
+				, dynamicTyping: true
+			}).parse(input);
+
+			for (var i = 0; i < preview.data[0].length; i++) {
+				if (FLOAT.test(preview.data[0][i]))
+					return false
+			}
+			
+			return true
+		}
+
 		function guessDelimiter(input)
 		{
 			var delimChoices = [",", "\t", "|", ";", Papa.RECORD_SEP, Papa.UNIT_SEP];
@@ -922,6 +946,7 @@
 		var step = config.step;
 		var preview = config.preview;
 		var fastMode = config.fastMode;
+		var header = config.header;
 
 		// Delimiter must be valid
 		if (typeof delim !== 'string'
@@ -1172,6 +1197,7 @@
 						delimiter: delim,
 						linebreak: newline,
 						aborted: aborted,
+						header: header,
 						truncated: !!stopped,
 						cursor: lastCursor + (baseIndex || 0)
 					}
