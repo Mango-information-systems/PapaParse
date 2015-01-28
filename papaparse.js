@@ -1,6 +1,6 @@
 /*!
 	Papa Parse
-	v4.0.7
+	v4.1.0
 	https://github.com/mholt/PapaParse
 */
 (function(global)
@@ -992,7 +992,7 @@
 			if (!input)
 				return returnable();
 
-			if (fastMode || input.indexOf('"') === -1)
+			if (fastMode || (fastMode !== false && input.indexOf('"') === -1))
 			{
 				var rows = input.split(newline);
 				for (var i = 0; i < rows.length; i++)
