@@ -846,7 +846,7 @@
 
 		function guessDelimiter(input)
 		{
-			var delimChoices = [",", "\t", "|", ";", Papa.RECORD_SEP, Papa.UNIT_SEP];
+			var delimChoices = [",", "\t", "|", ";", " ", "-", ":", Papa.RECORD_SEP, Papa.UNIT_SEP];
 			var bestDelim, bestDelta, fieldCountPrevRow;
 
 			for (var i = 0; i < delimChoices.length; i++)
